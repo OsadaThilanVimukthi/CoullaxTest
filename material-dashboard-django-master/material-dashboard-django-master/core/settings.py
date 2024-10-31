@@ -73,7 +73,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
     'ENGINE': 'django.db.backends.mysql',
-    'NAME': 'delivery_water2',
+    'NAME': 'book_store',
     'USER': 'ecwerpuser',
     'PASSWORD': 'VEGAS-BABY-VEGAS-$$$-BABY',
     'HOST': 'localhost',
