@@ -1,0 +1,34 @@
+{% extends "layouts/base.html" %}
+
+{% load crispy_forms_tags %}  <!-- Load crispy tags here -->
+
+{% block title %} Review Create {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+    .full-screen-form {
+        width: 100%;  /* Makes the form take full width */
+        max-width: 100%;  /* Prevents the form from exceeding 100% width */
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="row">
+    {% for message in messages %}          
+        <div class="alert {{ message.tags }}" role="alert" style="background-color: #d4edda; color: #155724;">  <!-- Green background -->
+            <strong>{{ message }}</strong>
+        </div>
+    {% endfor %}
+
+    <form method="post" id="currentform" class="full-screen-form">  <!-- Apply class here -->
+        {% csrf_token %}
+        {% crispy form %}
+    </form>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
