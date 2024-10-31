@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from apps.review.models import BookReview
@@ -102,3 +102,17 @@ class ReviewUpdateView(UpdateView,PageTitleMixin, LoginRequiredMixin):
     def form_valid(self, form):
       messages.success(self.request, "Review updated successfully")
       return super().form_valid(form)
+    
+
+def review_delete_view(request, pk):
+
+    # Fetch the Employee object related to the passed id
+    bookreview_instance = get_object_or_404(BookReview, id=pk)
+    
+    # Delete the Employee object
+    bookreview_instance.delete()
+
+    messages.success(request, "Review deleted successfully")
+    
+    # Redirect to the 'Employee List' view or any other appropriate view
+    return redirect('Review List')    
