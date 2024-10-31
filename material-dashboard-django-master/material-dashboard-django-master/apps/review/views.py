@@ -11,7 +11,7 @@ from .forms import  ReviewForm
 from .serializers import BookReviewSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
+from django.db.models import Q 
 # API View to handle BookReview operations
 class BookReviewListAPIView(generics.ListCreateAPIView):
     queryset = BookReview.objects.all()
@@ -63,4 +63,42 @@ class ReviewListView(PageTitleMixin, LoginRequiredMixin,ListView):
    model=BookReview
    template_name='review/list.html'
    context_object_name='reviews'
-   paginate_by = 10    
+   paginate_by = 10  
+   def get_queryset(self):
+        return BookReview.objects.all()    
+
+   def get_queryset(self):
+        title_val = self.request.GET.get('title', '')
+        author_val = self.request.GET.get('author', '')
+        rating_val = self.request.GET.get('rating', '')
+        new_context = BookReview.objects.all().order_by('-id')
+        if(title_val!='') : 
+            new_context = new_context.filter(
+                Q(title__icontains=title_val)
+            )
+        if(author_val!='') : 
+            new_context = new_context.filter(
+                Q(author__contains=author_val) 
+            )
+        if(rating_val!='') : 
+            new_context = new_context.filter(
+                Q(rating_val__icontains=rating_val) 
+            )
+        return new_context
+   def get_context_data(self, **kwargs):
+        context = super(ReviewListView, self).get_context_data(**kwargs)
+        context['title_val'] = self.request.GET.get('title', '')
+        context['author_val'] = self.request.GET.get('author', '')
+        context['rating_val'] = self.request.GET.get('rating', '')
+        return context   
+   
+
+class ReviewUpdateView(UpdateView,PageTitleMixin, LoginRequiredMixin):   
+    model=BookReview
+    template_name='review/create.html'
+    form_class=ReviewForm
+    page_title='Review Update'
+
+    def form_valid(self, form):
+      messages.success(self.request, "Review updated successfully")
+      return super().form_valid(form)
