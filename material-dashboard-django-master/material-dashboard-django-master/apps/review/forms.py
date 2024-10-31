@@ -21,11 +21,13 @@ class ReviewForm(ModelForm):
                     'class':'form-control'
                 }
             ),
-            'rating':forms.TextInput(
+            'rating': forms.Select(
+                choices=[(i, i) for i in range(1, 6)],  # Rating choices from 1 to 5
                 attrs={
-                    'class':'form-control'
+                    'class': 'form-control'
                 }
             ),
+
             'review_text': forms.TextInput(
                 attrs={
                     'class':'form-control'

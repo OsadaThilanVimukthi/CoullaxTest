@@ -58,3 +58,9 @@ class ReviewCreateView(PageTitleMixin, LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         messages.success(self.request, "Review Created successfully")  
         return super().form_valid(form)
+    
+class ReviewListView(PageTitleMixin, LoginRequiredMixin,ListView):
+   model=BookReview
+   template_name='review/list.html'
+   context_object_name='reviews'
+   paginate_by = 10    
